@@ -1,5 +1,7 @@
 package gui;
 
+import assets.data.DefaultGameAssetsProvider;
+
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,16 +20,16 @@ public class Controller implements ActionListener
     {
         switch (e.getActionCommand())
         {
-            case "New Game":
+            case "Nueva partida":
                 createNewGame();
                 break;
-            case "Continue":
+            case "Continuar partida":
                 continueGame();
                 break;
-            case "Instructions":
+            case "Instrucciones":
                 showInstructions();
                 break;
-            case "Exit":
+            case "Salir":
                 exitGame();
                 break;
         }
@@ -45,7 +47,9 @@ public class Controller implements ActionListener
 
     private void showInstructions()
     {
+        DefaultGameAssetsProvider assetsProvider = new DefaultGameAssetsProvider();
 
+        JOptionPane.showMessageDialog(null, assetsProvider.getInstructions(), "Instrucciones", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void exitGame()

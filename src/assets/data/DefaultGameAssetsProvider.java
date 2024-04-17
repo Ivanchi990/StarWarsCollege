@@ -126,4 +126,14 @@ public class DefaultGameAssetsProvider
 
         return crewMembers;
     }
+
+    public String getInstructions()
+    {
+        return "Instrucciones:\n" +
+                "1. Selecciona una nave de la lista de naves disponibles.\n" +
+                "2. Selecciona una ubicación de la lista de ubicaciones disponibles.\n" +
+                "3. Haz clic en el botón 'Viajar' para viajar a la ubicación seleccionada.\n" +
+                "4. Repite los pasos 1-3 hasta que hayas visitado todas las ubicaciones.\n" +
+                "5. ¡Que la Fuerza te acompañe!";
+    }
 }

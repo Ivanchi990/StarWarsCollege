@@ -54,7 +54,7 @@ public class MainView
     public void createIntroductionStuff()
     {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(4,2));
+        mainPanel.setLayout(new GridBagLayout());
         mainPanel.setBackground(ApplicationValues.BACKGROUND_COLOR);
 
         gameTitle = new JLabel(ApplicationValues.APPLICATION_NAME);
@@ -80,7 +80,7 @@ public class MainView
 
         button.setBackground(Color.BLACK);
         button.setForeground(Color.WHITE);
-        button.setFont(new Font("Arial", Font.BOLD, 20));
+        button.setFont(new Font("Arial", Font.BOLD, 30));
         button.setBorder(new LineBorder(Color.WHITE, 2));
 
         button.addMouseListener(new MouseAdapter() {
@@ -100,16 +100,39 @@ public class MainView
 
     public void placeIntroductionStuff()
     {
-        mainPanel.add(gameTitle);
-        mainPanel.add(new JLabel());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        mainPanel.add(empireLogoLabel);
-        mainPanel.add(rebelLogoLabel);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(gameTitle, gbc);
 
-        mainPanel.add(newGameButton);
-        mainPanel.add(continueButton);
-        mainPanel.add(instructionsButton);
-        mainPanel.add(exitButton);
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 0, 10);
+        mainPanel.add(empireLogoLabel, gbc);
+
+        gbc.gridx = 2;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 10, 0, 0);
+        mainPanel.add(rebelLogoLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        mainPanel.add(newGameButton, gbc);
+
+        gbc.gridy = 2;
+        mainPanel.add(continueButton, gbc);
+
+        gbc.gridy = 3;
+        mainPanel.add(instructionsButton, gbc);
+
+        gbc.gridy = 4;
+        mainPanel.add(exitButton, gbc);
 
         window.add(mainPanel);
     }
