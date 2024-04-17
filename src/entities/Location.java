@@ -13,6 +13,11 @@ public class Location
         this.size = size;
     }
 
+    private int getInitialPoints()
+    {
+        return size.getX() * (size.getY()/2);
+    }
+
     public String getName()
     {
         return name;
