@@ -11,10 +11,9 @@ public class CrewMember
     private Side side;
     private int resistance;
     private int reward;
-    private int quantity;
     private boolean isDead;
 
-    public CrewMember(String name, Appointment appointment, Coordinates position, int resistance, int reward, Side side, int quantity, boolean isDead)
+    public CrewMember(String name, Appointment appointment, Coordinates position, int resistance, int reward, Side side, boolean isDead)
     {
         this.name = name;
         this.appointment = appointment;
@@ -22,7 +21,6 @@ public class CrewMember
         this.side = side;
         this.resistance = resistance;
         this.reward = reward;
-        this.quantity = quantity;
         this.isDead = isDead;
     }
 
@@ -94,16 +92,6 @@ public class CrewMember
     public void setSide(Side side)
     {
         this.side = side;
-    }
-
-    public int getQuantity()
-    {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity)
-    {
-        this.quantity = quantity;
     }
 
     public String toString()

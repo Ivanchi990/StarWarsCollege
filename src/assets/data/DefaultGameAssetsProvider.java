@@ -98,29 +98,29 @@ public class DefaultGameAssetsProvider
 
         if(side == Side.EMPIRE) {
             for (i = i; i < officials; i++) {
-                crewMembers[i] = new CrewMember("Sith", Appointment.OFFICIAL, null, 200, 400, Side.EMPIRE, officials, false);
+                crewMembers[i] = new CrewMember("Sith", Appointment.OFFICIAL, null, 200, 400, Side.EMPIRE,  false);
             }
 
             for (i = i; i < pilots; i++) {
-                crewMembers[i] = new CrewMember("Neimoidiano", Appointment.PILOT, null, 150, 100, Side.EMPIRE, pilots, false);
+                crewMembers[i] = new CrewMember("Neimoidiano", Appointment.PILOT, null, 150, 100, Side.EMPIRE,  false);
             }
 
             for (i = i; i < soldier; i++) {
-                crewMembers[i] = new CrewMember("Stormtrooper", Appointment.SOLDIER, null, 100, 50, Side.EMPIRE, soldier, false);
+                crewMembers[i] = new CrewMember("Stormtrooper", Appointment.SOLDIER, null, 100, 50, Side.EMPIRE,  false);
             }
         }
         else
         {
             for (i = i; i < officials; i++) {
-                crewMembers[i] = new CrewMember("Jedi", Appointment.OFFICIAL, null, 200, 400, Side.EMPIRE, officials, false);
+                crewMembers[i] = new CrewMember("Jedi", Appointment.OFFICIAL, null, 200, 400, Side.EMPIRE,  false);
             }
 
             for (i = i; i < pilots; i++) {
-                crewMembers[i] = new CrewMember("Calamari", Appointment.PILOT, null, 150, 100, Side.EMPIRE, pilots, false);
+                crewMembers[i] = new CrewMember("Calamari", Appointment.PILOT, null, 150, 100, Side.EMPIRE,  false);
             }
 
             for (i = i; i < soldier; i++) {
-                crewMembers[i] = new CrewMember("Wookie", Appointment.SOLDIER, null, 100, 50, Side.EMPIRE, soldier, false);
+                crewMembers[i] = new CrewMember("Wookie", Appointment.SOLDIER, null, 100, 50, Side.EMPIRE,  false);
             }
         }
 
