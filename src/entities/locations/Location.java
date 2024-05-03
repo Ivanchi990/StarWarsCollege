@@ -7,14 +7,14 @@ public abstract class Location
     private String name;
     private String description;
     private Coordinates size;
-    private int reward;
+    private int initialPoints;
 
     public Location(Coordinates size, String name, String description)
     {
         this.size = size;
         this.name = name;
         this.description = description;
-        this.reward = calculateReward();
+        this.initialPoints = calculateInitialPoints();
     }
 
     public String getName() {
@@ -41,15 +41,15 @@ public abstract class Location
         this.size = size;
     }
 
-    public int getReward() {
-        return reward;
+    public int getInitialPoints() {
+        return initialPoints;
     }
 
-    public void setReward(int reward) {
-        this.reward = reward;
+    public void setInitialPoints(int initialPoints) {
+        this.initialPoints = initialPoints;
     }
 
-    private int calculateReward() {
+    private int calculateInitialPoints() {
         return size.getX() * size.getY()/2;
     }
 }

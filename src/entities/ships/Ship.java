@@ -4,6 +4,8 @@ import assets.data.enums.Side;
 import entities.Coordinates;
 import entities.crewmembers.CrewMember;
 
+import java.util.TreeMap;
+
 public abstract class Ship
 {
     private Side side;
@@ -16,12 +18,12 @@ public abstract class Ship
     private int size;
     private int power;
     private int destroyReward;
-    private CrewMember[] crewMember;
+    private TreeMap<Coordinates, CrewMember> crewMembers;
     private Coordinates coordinates;
     private int maxMovement;
     private int movementEnergy;
 
-    public Ship(Side side, String name, String description, int price, int deflectorsEnergy, int cannonEnergy, int engineEnergy, int size, int power, int destroyReward, CrewMember[] crewMember, Coordinates coordinates, int maxMovement, int movementEnergy) {
+    public Ship(Side side, String name, String description, int price, int deflectorsEnergy, int cannonEnergy, int engineEnergy, int size, int power, int destroyReward, TreeMap<Coordinates, CrewMember> crewMembers, Coordinates coordinates, int maxMovement, int movementEnergy) {
         this.side = side;
         this.name = name;
         this.description = description;
@@ -32,7 +34,7 @@ public abstract class Ship
         this.size = size;
         this.power = power;
         this.destroyReward = destroyReward;
-        this.crewMember = crewMember;
+        this.crewMembers = crewMembers;
         this.coordinates = coordinates;
         this.maxMovement = maxMovement;
         this.movementEnergy = movementEnergy;
@@ -62,12 +64,12 @@ public abstract class Ship
         this.coordinates = coordinates;
     }
 
-    public CrewMember[] getCrewMember() {
-        return crewMember;
+    public TreeMap<Coordinates, CrewMember> getCrewMembers() {
+        return crewMembers;
     }
 
-    public void setCrewMember(CrewMember[] crewMember) {
-        this.crewMember = crewMember;
+    public void setCrewMembers(TreeMap<Coordinates, CrewMember> crewMembers) {
+        this.crewMembers = crewMembers;
     }
 
     public int getDestroyReward() {

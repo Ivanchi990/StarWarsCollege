@@ -6,20 +6,27 @@ import entities.Coordinates;
 
 public abstract class CrewMember
 {
+    private Side side;
     private String name;
     private Appointment appointment;
-    private Coordinates position;
-    private Side side;
     private int resistance;
     private int reward;
 
-    public CrewMember(String name, Appointment appointment, Coordinates position, Side side, int resistance, int reward) {
+    public CrewMember(Side side, String name, Appointment appointment, int resistance, int reward)
+    {
+        this.side = side;
         this.name = name;
         this.appointment = appointment;
-        this.position = position;
-        this.side = side;
         this.resistance = resistance;
         this.reward = reward;
+    }
+
+    public Side getSide() {
+        return side;
+    }
+
+    public void setSide(Side side) {
+        this.side = side;
     }
 
     public String getName() {
@@ -36,22 +43,6 @@ public abstract class CrewMember
 
     public void setAppointment(Appointment appointment) {
         this.appointment = appointment;
-    }
-
-    public Coordinates getPosition() {
-        return position;
-    }
-
-    public void setPosition(Coordinates position) {
-        this.position = position;
-    }
-
-    public Side getSide() {
-        return side;
-    }
-
-    public void setSide(Side side) {
-        this.side = side;
     }
 
     public int getResistance() {

@@ -45,9 +45,7 @@ public class Controller implements ActionListener
 
     private void showInstructions()
     {
-        DefaultGameAssetsProvider assetsProvider = new DefaultGameAssetsProvider();
-
-        JOptionPane.showMessageDialog(null, assetsProvider.getInstructions(), "Instrucciones", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "", "Instrucciones", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void exitGame()
