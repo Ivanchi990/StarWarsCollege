@@ -1,5 +1,7 @@
 package gui;
 
+import gui.views.MainView;
+
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

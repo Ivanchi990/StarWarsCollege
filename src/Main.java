@@ -1,5 +1,5 @@
 import gui.Controller;
-import gui.MainView;
+import gui.views.MainView;
 
 public class Main
 {

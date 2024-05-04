@@ -1,9 +1,9 @@
-package gui;
+package gui.views;
 
 import assets.data.ApplicationValues;
+import gui.Controller;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;

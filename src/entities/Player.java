@@ -4,15 +4,16 @@ import assets.data.enums.Side;
 import entities.ships.Ship;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class Player
 {
     private Side team;
-    private ArrayList<Ship> ships;
+    private TreeMap<Coordinates, Ship> ships;
     private int points;
     private ArrayList<Message> playerLog;
 
-    public Player(Side team, ArrayList<Ship> ships, int points, ArrayList<Message> playerLog)
+    public Player(Side team, TreeMap<Coordinates, Ship> ships, int points, ArrayList<Message> playerLog)
     {
         this.team = team;
         this.ships = ships;
@@ -30,12 +31,12 @@ public class Player
         this.team = team;
     }
 
-    public ArrayList<Ship> getShips()
+    public TreeMap<Coordinates, Ship> getShips()
     {
         return ships;
     }
 
-    public void setShips(ArrayList<Ship> ships)
+    public void setShips(TreeMap<Coordinates, Ship> ships)
     {
         this.ships = ships;
     }
