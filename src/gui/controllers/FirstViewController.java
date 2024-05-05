@@ -1,18 +1,21 @@
-package gui;
+package gui.controllers;
 
+import gui.views.FirstView;
 import gui.views.MainView;
 
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Controller implements ActionListener
+public class FirstViewController implements ActionListener
 {
-    private MainView view;
+    private MainView mainView;
+    private FirstView view;
 
-    public Controller(MainView view)
+    public FirstViewController(FirstView view, MainView mainView)
     {
         this.view = view;
+        this.mainView = mainView;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class Controller implements ActionListener
 
     private void createNewGame()
     {
-
+        mainView.showFirstView();
     }
 
     private void continueGame()
@@ -52,7 +55,7 @@ public class Controller implements ActionListener
 
     private void exitGame()
     {
-        int ans = JOptionPane.showConfirmDialog(view.window, "¿Estás seguro?", "Salir", 0, 1);
+        int ans = JOptionPane.showConfirmDialog(this.view, "¿Estás seguro?", "Salir", 0, 1);
 
         if(ans == 0)
         {
