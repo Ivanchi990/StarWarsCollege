@@ -1,6 +1,8 @@
 package entities;
 
+import assets.data.enums.Side;
 import entities.locations.Location;
+import entities.ships.Ship;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,14 +14,16 @@ public class Game implements Serializable
     private int round;
     private Location location;
     private ArrayList<Message> gameLog;
+    private Side winner;
 
-    public Game(Player player1, Player player2, int round, Location location, ArrayList<Message> gameLog)
+    public Game(Player player1, Player player2, int round, Location location)
     {
         this.player1 = player1;
         this.player2 = player2;
         this.round = round;
         this.location = location;
-        this.gameLog = gameLog;
+        this.gameLog = new ArrayList<>();
+        this.winner = null;
     }
 
     public Player getPlayer1()
@@ -70,5 +74,19 @@ public class Game implements Serializable
     public void setGameLog(ArrayList<Message> gameLog)
     {
         this.gameLog = gameLog;
+    }
+
+    public Side getWinner()
+    {
+        return winner;
+    }
+
+    public void setWinner(Side winner)
+    {
+        this.winner = winner;
+    }
+
+    public void increaseRound() {
+        this.round++;
     }
 }

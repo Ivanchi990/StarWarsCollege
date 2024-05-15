@@ -2,8 +2,10 @@ package entities;
 
 import assets.data.enums.Side;
 import entities.ships.Ship;
+import exceptions.NotEnoughEnergyException;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class Player
@@ -13,12 +15,12 @@ public class Player
     private int points;
     private ArrayList<Message> playerLog;
 
-    public Player(Side team, TreeMap<Coordinates, Ship> ships, int points, ArrayList<Message> playerLog)
+    public Player(Side team, int points)
     {
         this.team = team;
-        this.ships = ships;
+        this.ships = new TreeMap<>();
         this.points = points;
-        this.playerLog = playerLog;
+        this.playerLog = new ArrayList<>();
     }
 
     public Side getTeam()
@@ -59,5 +61,81 @@ public class Player
     public void setPlayerLog(ArrayList<Message> playerLog)
     {
         this.playerLog = playerLog;
+    }
+
+    public void addShip(Coordinates coordinates, Ship ship)
+    {
+        ships.put(coordinates, ship);
+    }
+
+    public void updatePoints(int i)
+    {
+        this.points += i;
+    }
+
+    public void addMessage(Message message)
+    {
+        playerLog.add(message);
+    }
+
+    public boolean shoot(Player reciever, Coordinates coordinates, Ship shooter) throws NotEnoughEnergyException {
+        boolean hitted = false;
+
+        if(reciever != null)
+        {
+            shooter.shoot(reciever, coordinates);
+        }
+
+        return hitted;
+    }
+
+    public Ship getShip(Coordinates coordinates)
+    {
+        if(ships.containsKey(coordinates))
+        {
+            return ships.get(coordinates);
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void removeShip(Coordinates coordinates)
+    {
+       Ship shipToRemove = ships.get(coordinates);
+       ArrayList<Coordinates> coordinatesToRemove = new ArrayList<>();
+
+        for (Map.Entry<Coordinates, Ship> entry : ships.entrySet())
+        {
+
+            if (entry.getValue().equals(shipToRemove))
+            {
+                coordinatesToRemove.add(entry.getKey());
+            }
+        }
+
+        for (Coordinates c : coordinatesToRemove)
+        {
+            ships.remove(c);
+        }
+    }
+
+    public void removeShip(Ship ship)
+    {
+        ArrayList<Coordinates> coordinatesToRemove = new ArrayList<>();
+
+        for (Map.Entry<Coordinates, Ship> entry : ships.entrySet())
+        {
+            if (entry.getValue().equals(ship))
+            {
+                coordinatesToRemove.add(entry.getKey());
+            }
+        }
+
+        for (Coordinates c : coordinatesToRemove)
+        {
+            ships.remove(c);
+        }
     }
 }

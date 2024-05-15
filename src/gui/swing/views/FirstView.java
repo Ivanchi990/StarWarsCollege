@@ -1,7 +1,7 @@
-package gui.views;
+package gui.swing.views;
 
 import assets.data.ApplicationValues;
-import gui.controllers.FirstViewController;
+import gui.swing.controllers.FirstViewController;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

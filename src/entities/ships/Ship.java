@@ -2,15 +2,16 @@ package entities.ships;
 
 import assets.data.enums.Side;
 import entities.Coordinates;
+import entities.Player;
 import entities.crewmembers.CrewMember;
+import exceptions.NotEnoughEnergyException;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 public abstract class Ship
 {
-    private Side side;
     private String name;
-    private String description;
     private int price;
     private int deflectorsEnergy;
     private int cannonEnergy;
@@ -19,14 +20,11 @@ public abstract class Ship
     private int power;
     private int destroyReward;
     private TreeMap<Coordinates, CrewMember> crewMembers;
-    private Coordinates coordinates;
     private int maxMovement;
     private int movementEnergy;
 
-    public Ship(Side side, String name, String description, int price, int deflectorsEnergy, int cannonEnergy, int engineEnergy, int size, int power, int destroyReward, TreeMap<Coordinates, CrewMember> crewMembers, Coordinates coordinates, int maxMovement, int movementEnergy) {
-        this.side = side;
+    public Ship(String name, int price, int deflectorsEnergy, int cannonEnergy, int engineEnergy, int size, int power, int destroyReward, TreeMap<Coordinates, CrewMember> crewMembers, int maxMovement, int movementEnergy) {
         this.name = name;
-        this.description = description;
         this.price = price;
         this.deflectorsEnergy = deflectorsEnergy;
         this.cannonEnergy = cannonEnergy;
@@ -35,7 +33,6 @@ public abstract class Ship
         this.power = power;
         this.destroyReward = destroyReward;
         this.crewMembers = crewMembers;
-        this.coordinates = coordinates;
         this.maxMovement = maxMovement;
         this.movementEnergy = movementEnergy;
     }
@@ -54,14 +51,6 @@ public abstract class Ship
 
     public void setMaxMovement(int maxMovement) {
         this.maxMovement = maxMovement;
-    }
-
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
     }
 
     public TreeMap<Coordinates, CrewMember> getCrewMembers() {
@@ -128,14 +117,6 @@ public abstract class Ship
         this.price = price;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getName() {
         return name;
     }
@@ -144,11 +125,76 @@ public abstract class Ship
         this.name = name;
     }
 
-    public Side getSide() {
-        return side;
+    public String shootInfo()
+    {
+        return "Nave: " + name + "\n" +
+                "Energía de cañones: " + cannonEnergy + "\n" +
+                "Potencia: " + power;
     }
 
-    public void setSide(Side side) {
-        this.side = side;
+    public String moveInfo()
+    {
+        return "Nave: " + name + "\n" +
+                "Energía de motores: " + engineEnergy + "\n" +
+                "Movimiento máximo: " + maxMovement;
+    }
+
+    public void shoot(Player reciever, Coordinates coordinates) throws NotEnoughEnergyException
+    {
+        if(this.cannonEnergy >= this.power)
+        {
+            this.cannonEnergy -= this.power;
+
+            if(reciever.getShip(coordinates).getDamage(this.power, coordinates))
+            {
+                reciever.removeShip(coordinates);
+            }
+        }
+        else
+        {
+            throw new NotEnoughEnergyException();
+        }
+    }
+
+    private boolean getDamage(int damage, Coordinates coordinates)
+    {
+        boolean destroyed = false;
+
+        if(this.deflectorsEnergy >= damage)
+        {
+            this.deflectorsEnergy -= damage;
+        }
+        else
+        {
+            damage -= this.deflectorsEnergy;
+            this.deflectorsEnergy = 0;
+
+            if(crewMembers.get(coordinates).recieveDamage(damage))
+            {
+                crewMembers.remove(coordinates);
+            }
+
+            if(crewMembers.isEmpty())
+            {
+                destroyed = true;
+            }
+        }
+
+        return destroyed;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "name='" + name + '\'' +
+                ", deflectorsEnergy=" + deflectorsEnergy +
+                ", cannonEnergy=" + cannonEnergy +
+                ", engineEnergy=" + engineEnergy +
+                ", power=" + power +
+                ", maxMovement=" + maxMovement +
+                ", movementEnergy=" + movementEnergy +
+                ", crewMembers=" + crewMembers.size() +
+                '}';
     }
 }

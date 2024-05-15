@@ -60,4 +60,11 @@ public abstract class CrewMember
     public void setReward(int reward) {
         this.reward = reward;
     }
+
+    public boolean recieveDamage(int damage)
+    {
+        this.resistance -= damage;
+
+        return this.resistance <= 0;
+    }
 }

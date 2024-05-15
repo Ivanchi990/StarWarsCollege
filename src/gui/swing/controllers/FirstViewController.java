@@ -1,7 +1,7 @@
-package gui.controllers;
+package gui.swing.controllers;
 
-import gui.views.FirstView;
-import gui.views.MainView;
+import gui.swing.views.FirstView;
+import gui.swing.views.MainView;
 
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
