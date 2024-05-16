@@ -1,12 +1,10 @@
 package entities.ships;
 
-import assets.data.enums.Side;
 import entities.Coordinates;
 import entities.Player;
 import entities.crewmembers.CrewMember;
 import exceptions.NotEnoughEnergyException;
 
-import java.util.ArrayList;
 import java.util.TreeMap;
 
 public abstract class Ship
@@ -139,15 +137,23 @@ public abstract class Ship
                 "Movimiento máximo: " + maxMovement;
     }
 
-    public void shoot(Player reciever, Coordinates coordinates) throws NotEnoughEnergyException
+    public void shoot(Player reciever, Coordinates coordinates, Player shooter) throws NotEnoughEnergyException
     {
         if(this.cannonEnergy >= this.power)
         {
             this.cannonEnergy -= this.power;
 
-            if(reciever.getShip(coordinates).getDamage(this.power, coordinates))
+            Ship recieverShip = reciever.getShip(coordinates);
+
+            if(recieverShip != null)
             {
-                reciever.removeShip(coordinates);
+                recieverShip.getDamage(this.power, coordinates, reciever);
+
+                if(recieverShip.crewMembers.isEmpty())
+                {
+                    shooter.updatePoints(recieverShip.destroyReward);
+                    reciever.removeShip(coordinates);
+                }
             }
         }
         else
@@ -156,10 +162,8 @@ public abstract class Ship
         }
     }
 
-    private boolean getDamage(int damage, Coordinates coordinates)
+    private void getDamage(int damage, Coordinates coordinates, Player reciever)
     {
-        boolean destroyed = false;
-
         if(this.deflectorsEnergy >= damage)
         {
             this.deflectorsEnergy -= damage;
@@ -171,16 +175,10 @@ public abstract class Ship
 
             if(crewMembers.get(coordinates).recieveDamage(damage))
             {
+                reciever.notifyDestruction(this);
                 crewMembers.remove(coordinates);
             }
-
-            if(crewMembers.isEmpty())
-            {
-                destroyed = true;
-            }
         }
-
-        return destroyed;
     }
 
 

@@ -203,10 +203,12 @@ public class MainInterface
     private void showShipsInfo(Player player)
     {
         HashSet<Ship> uniqueShips = new HashSet<>(player.getShips().values());
+        int cont = 1;
 
         for(Ship ship: uniqueShips)
         {
-            System.out.println(ship.shootInfo());
+            System.out.println("[" + cont + "]" + ship.shootInfo());
+            cont++;
         }
 
         showActions(player);
@@ -274,7 +276,7 @@ public class MainInterface
                 int cont = 1;
                 for(Ship ship: uniqueShips)
                 {
-                    System.out.println("[1] - " + ship.shootInfo() + "\n");
+                    System.out.println("[" + cont + "] - " + ship.shootInfo() + "\n");
                     cont++;
                 }
 
@@ -381,8 +383,6 @@ public class MainInterface
 
             System.out.println();
         }
-
-
     }
 
 
@@ -390,7 +390,7 @@ public class MainInterface
     {
         int option = 0;
         boolean validOption = false;
-        boolean enoughPoints = true;
+        boolean enoughPoints = player.getPoints()>0;
 
         while(enoughPoints)
         {

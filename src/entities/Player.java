@@ -78,15 +78,12 @@ public class Player
         playerLog.add(message);
     }
 
-    public boolean shoot(Player reciever, Coordinates coordinates, Ship shooter) throws NotEnoughEnergyException {
-        boolean hitted = false;
-
+    public void shoot(Player reciever, Coordinates coordinates, Ship shooter) throws NotEnoughEnergyException
+    {
         if(reciever != null)
         {
-            shooter.shoot(reciever, coordinates);
+            shooter.shoot(reciever, coordinates, this);
         }
-
-        return hitted;
     }
 
     public Ship getShip(Coordinates coordinates)
@@ -137,5 +134,10 @@ public class Player
         {
             ships.remove(c);
         }
+    }
+
+    public void notifyDestruction(Ship ship)
+    {
+
     }
 }
