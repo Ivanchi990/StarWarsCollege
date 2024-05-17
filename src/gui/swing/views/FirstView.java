@@ -29,7 +29,6 @@ public class FirstView extends JPanel
         setEventsIntroductionStuff(new FirstViewController(this, mainView));
     }
 
-
     private void createItems()
     {
         this.setLayout(new GridBagLayout());
