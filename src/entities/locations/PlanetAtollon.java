@@ -2,7 +2,9 @@ package entities.locations;
 
 import entities.Coordinates;
 
-public class PlanetAtollon extends Location
+import java.io.Serializable;
+
+public class PlanetAtollon extends Location implements Serializable
 {
     public PlanetAtollon()
     {

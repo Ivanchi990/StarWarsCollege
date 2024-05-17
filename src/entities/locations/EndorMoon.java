@@ -2,7 +2,9 @@ package entities.locations;
 
 import entities.Coordinates;
 
-public class EndorMoon extends Location
+import java.io.Serializable;
+
+public class EndorMoon extends Location implements Serializable
 {
     public EndorMoon()
     {

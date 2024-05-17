@@ -2,12 +2,15 @@ package entities.crewmembers.rebels;
 
 import assets.data.enums.Appointment;
 import assets.data.enums.Side;
+import entities.Coordinates;
 import entities.crewmembers.CrewMember;
 
-public class Calamari extends CrewMember
+import java.io.Serializable;
+
+public class Calamari extends CrewMember implements Serializable
 {
-    public Calamari()
+    public Calamari(Coordinates coordinates)
     {
-        super(Side.REBEL, "Calamari", Appointment.PILOT, 150, 100);
+        super(Side.REBEL, "Calamari", Appointment.PILOT, 150, 100, coordinates);
     }
 }

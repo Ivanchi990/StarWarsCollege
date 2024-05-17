@@ -1,23 +1,22 @@
 package entities.locations;
 
+import assets.data.enums.Side;
 import entities.Coordinates;
-import entities.ships.Ship;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.TreeMap;
 
-public abstract class Location
+public abstract class Location implements Serializable
 {
     private String name;
     private Coordinates size;
     private int initialPoints;
-    private ArrayList<Coordinates> usedCoordinates;
 
     public Location(Coordinates size, String name)
     {
         this.size = size;
         this.name = name;
         this.initialPoints = calculateInitialPoints();
-        this.usedCoordinates = new ArrayList<>();
     }
 
     public String getName() {
@@ -48,33 +47,6 @@ public abstract class Location
         return size.getX() * size.getY()/2;
     }
 
-    public boolean isCoordinatesAvailables(ArrayList<Coordinates> coordinates)
-    {
-        boolean available = true;
-
-        for (Coordinates coordinate : coordinates)
-        {
-            if (usedCoordinates.contains(coordinate))
-            {
-                available = false;
-                break;
-            }
-        }
-
-        return available;
-    }
-
-    public boolean isCoordinatesAvailables(Coordinates coordinates)
-    {
-        return usedCoordinates.contains(coordinates);
-    }
-
-
-    public void addUsedCoordinates(Coordinates coordinates)
-    {
-        usedCoordinates.add(coordinates);
-    }
-
     @Override
     public String toString() {
         return "Location{" +
@@ -82,9 +54,5 @@ public abstract class Location
                 ", size=" + size +
                 ", initialPoints=" + initialPoints +
                 '}';
-    }
-
-    public boolean isCoordinatesAvailable(Coordinates coordinates) {
-        return usedCoordinates.contains(coordinates);
     }
 }

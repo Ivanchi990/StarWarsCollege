@@ -1,28 +1,39 @@
 package entities.ships.empire;
 
 import entities.Coordinates;
-import entities.crewmembers.CrewMember;
 import entities.crewmembers.empire.Neimoidiano;
 import entities.crewmembers.empire.Stormtrooper;
 import entities.ships.Ship;
+import exceptions.NotEnoughEnergyException;
 
-import java.util.TreeMap;
+import java.io.Serializable;
 
-public class TIE extends Ship
+public class TIE extends Ship implements Serializable
 {
-    public TIE()
+    public TIE(Coordinates coordinates)
     {
-        super("TIE", 500, 0, 1000, 500, 1, 20, 250, null, 2, 25);
+        super("TIE", 500, 0, 1000, 500, 1, 20, 250, null, 2, 25, coordinates);
         setCrewMembers();
     }
 
     public void setCrewMembers()
     {
-        TreeMap<Coordinates, CrewMember> crewMembers = new TreeMap<>();
+        this.crewMembers.add(new Neimoidiano(this.coordinatesStart));
+        this.crewMembers.add(new Stormtrooper(this.coordinatesStart));
+    }
 
-        crewMembers.put(new Coordinates(), new Neimoidiano());
-        crewMembers.put(new Coordinates(), new Stormtrooper());
-
-        this.setCrewMembers(crewMembers);
+    @Override
+    public void move(Coordinates coordinatesStart) throws NotEnoughEnergyException
+    {
+        if(this.engineEnergy >= this.movementEnergy)
+        {
+            this.engineEnergy -= this.movementEnergy;
+            this.coordinatesStart = coordinatesStart;
+            setCrewMembers();
+        }
+        else
+        {
+            throw new NotEnoughEnergyException();
+        }
     }
 }

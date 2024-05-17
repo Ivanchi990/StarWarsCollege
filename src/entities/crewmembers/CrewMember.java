@@ -4,21 +4,33 @@ import assets.data.enums.Appointment;
 import assets.data.enums.Side;
 import entities.Coordinates;
 
-public abstract class CrewMember
+import java.io.Serializable;
+
+public abstract class CrewMember implements Serializable
 {
     private Side side;
     private String name;
     private Appointment appointment;
     private int resistance;
     private int reward;
+    private Coordinates coordinates;
 
-    public CrewMember(Side side, String name, Appointment appointment, int resistance, int reward)
+    public CrewMember(Side side, String name, Appointment appointment, int resistance, int reward, Coordinates coordinates)
     {
         this.side = side;
         this.name = name;
         this.appointment = appointment;
         this.resistance = resistance;
         this.reward = reward;
+        this.coordinates = coordinates;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 
     public Side getSide() {

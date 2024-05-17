@@ -5,24 +5,28 @@ import entities.Player;
 import entities.crewmembers.CrewMember;
 import exceptions.NotEnoughEnergyException;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
-public abstract class Ship
+public abstract class Ship implements Serializable
 {
     private String name;
+    protected Coordinates coordinatesStart;
     private int price;
     private int deflectorsEnergy;
     private int cannonEnergy;
-    private int engineEnergy;
+    protected int engineEnergy;
     private int size;
     private int power;
     private int destroyReward;
-    private TreeMap<Coordinates, CrewMember> crewMembers;
-    private int maxMovement;
-    private int movementEnergy;
+    protected ArrayList<CrewMember> crewMembers;
+    protected int maxMovement;
+    protected int movementEnergy;
 
-    public Ship(String name, int price, int deflectorsEnergy, int cannonEnergy, int engineEnergy, int size, int power, int destroyReward, TreeMap<Coordinates, CrewMember> crewMembers, int maxMovement, int movementEnergy) {
+    public Ship(String name, int price, int deflectorsEnergy, int cannonEnergy, int engineEnergy, int size, int power, int destroyReward, ArrayList<CrewMember> crewMembers, int maxMovement, int movementEnergy, Coordinates coordintatesStart) {
         this.name = name;
+        this.coordinatesStart = coordintatesStart;
         this.price = price;
         this.deflectorsEnergy = deflectorsEnergy;
         this.cannonEnergy = cannonEnergy;
@@ -51,11 +55,11 @@ public abstract class Ship
         this.maxMovement = maxMovement;
     }
 
-    public TreeMap<Coordinates, CrewMember> getCrewMembers() {
+    public ArrayList<CrewMember> getCrewMembers() {
         return crewMembers;
     }
 
-    public void setCrewMembers(TreeMap<Coordinates, CrewMember> crewMembers) {
+    public void setCrewMembers(ArrayList<CrewMember> crewMembers) {
         this.crewMembers = crewMembers;
     }
 
@@ -123,6 +127,14 @@ public abstract class Ship
         this.name = name;
     }
 
+    public Coordinates getCoordinatesStart() {
+        return coordinatesStart;
+    }
+
+    public void setCoordinatesStart(Coordinates coordinatesStart) {
+        this.coordinatesStart = coordinatesStart;
+    }
+
     public String shootInfo()
     {
         return "Nave: " + name + "\n" +
@@ -137,32 +149,7 @@ public abstract class Ship
                 "Movimiento máximo: " + maxMovement;
     }
 
-    public void shoot(Player reciever, Coordinates coordinates, Player shooter) throws NotEnoughEnergyException
-    {
-        if(this.cannonEnergy >= this.power)
-        {
-            this.cannonEnergy -= this.power;
-
-            Ship recieverShip = reciever.getShip(coordinates);
-
-            if(recieverShip != null)
-            {
-                recieverShip.getDamage(this.power, coordinates, reciever);
-
-                if(recieverShip.crewMembers.isEmpty())
-                {
-                    shooter.updatePoints(recieverShip.destroyReward);
-                    reciever.removeShip(coordinates);
-                }
-            }
-        }
-        else
-        {
-            throw new NotEnoughEnergyException();
-        }
-    }
-
-    private void getDamage(int damage, Coordinates coordinates, Player reciever)
+    public int recieveDamage(int damage, Coordinates coordinates)
     {
         if(this.deflectorsEnergy >= damage)
         {
@@ -173,14 +160,28 @@ public abstract class Ship
             damage -= this.deflectorsEnergy;
             this.deflectorsEnergy = 0;
 
-            if(crewMembers.get(coordinates).recieveDamage(damage))
+            damageTripulation(damage, coordinates);
+        }
+
+        return 0;
+    }
+
+    private void damageTripulation(int damage, Coordinates coordinates)
+    {
+        for (CrewMember crewMember : crewMembers)
+        {
+            if(crewMember.getCoordinates().equals(coordinates))
             {
-                reciever.notifyDestruction(this);
-                crewMembers.remove(coordinates);
+                if(crewMember.recieveDamage(damage))
+                {
+                    crewMembers.remove(crewMember);
+                }
             }
         }
     }
 
+
+    public abstract void move(Coordinates coordinatesStart) throws NotEnoughEnergyException;
 
     @Override
     public String toString() {
@@ -194,5 +195,19 @@ public abstract class Ship
                 ", movementEnergy=" + movementEnergy +
                 ", crewMembers=" + crewMembers.size() +
                 '}';
+    }
+
+    public int shoot() throws NotEnoughEnergyException
+    {
+        if(cannonEnergy >= power)
+        {
+            cannonEnergy -= power;
+        }
+        else
+        {
+            throw new NotEnoughEnergyException();
+        }
+
+        return power;
     }
 }

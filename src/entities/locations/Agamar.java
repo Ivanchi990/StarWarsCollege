@@ -2,7 +2,9 @@ package entities.locations;
 
 import entities.Coordinates;
 
-public class Agamar extends Location
+import java.io.Serializable;
+
+public class Agamar extends Location implements Serializable
 {
     public Agamar()
     {

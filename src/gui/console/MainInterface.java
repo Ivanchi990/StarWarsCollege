@@ -13,6 +13,7 @@ import entities.ships.empire.TIE;
 import entities.ships.rebels.MilenniumFalcon;
 import entities.ships.rebels.StarCruiser;
 import entities.ships.rebels.XWing;
+import exceptions.InvalidCoordenatesException;
 import exceptions.InvalidOptionException;
 import exceptions.NotEnoughEnergyException;
 import exceptions.NotEnoughPointsException;
@@ -124,6 +125,7 @@ public class MainInterface
             }
 
             game.increaseRound();
+            game.updateShips();
 
             if(game.getPlayer1().getShips().isEmpty())
             {
@@ -200,6 +202,100 @@ public class MainInterface
     }
 
 
+    private void moveShip(Player player)
+    {
+        System.out.println("Jugador: " + player.getTeam() + "\n Turno de mover nave");
+
+        Ship ship = showAvailableShips(player.getShips());
+        int quantity = requestMovementQuantity(ship);
+
+
+        try
+        {
+            game.playerMoveShip(player.getTeam(), ship, quantity);
+        }
+        catch (NotEnoughEnergyException e)
+        {
+            System.out.println("Vaya... parece que no tienes suficiente energía para realizar el ataque. Por favor, elige otra acción.");
+            showActions(player);
+        }
+        catch (InvalidCoordenatesException e)
+        {
+            System.out.println("Vaya... parece que las coordenadas no son válidas. Por favor, elige otra acción.");
+            showActions(player);
+        }
+
+        /*System.out.println("Jugador: " + player.getTeam() + "\n Turno de ataque");
+
+        Ship ship = showAvailableShips(player.getShips());
+        Coordinates coordinates = getCoordinates();
+
+        try
+        {
+            game.playerAttack(player.getTeam(), coordinates, ship);
+        }
+        catch (NotEnoughEnergyException e)
+        {
+            System.out.println("Vaya... parece que no tienes suficiente energía para realizar el ataque. Por favor, elige otra acción.");
+            showActions(player);
+        }*/
+    }
+
+    private int requestMovementQuantity(Ship ship)
+    {
+        int quantity = 0;
+        boolean validQuantity = false;
+
+        while (!validQuantity)
+        {
+            try
+            {
+                System.out.println("¿Cuántas posiciones te gustaría realizar? \nMáximo: " + ship.getMaxMovement() + " posiciones.");
+                quantity = sc.nextInt();
+
+                if (validOption(quantity, ship.getMaxMovement()) && quantity > 0 && validOption(quantity, game.getLocation().getSize().getY()))
+                {
+                    validQuantity = true;
+                }
+                else
+                {
+                    System.err.println("Vaya... parece que has introducido una opción inválida. Por favor, introduce una opción válida.");
+                }
+            }
+            catch (InputMismatchException e)
+            {
+                System.err.println("Por favor, introduce un número.");
+                sc.next();
+            }
+            catch (InvalidOptionException e)
+            {
+                System.err.println("Vaya... parece que has introducido una opción inválida. Por favor, introduce una opción válida.");
+            }
+        }
+
+        return quantity;
+    }
+
+
+    private void attack(Player player)
+    {
+        System.out.println("Jugador: " + player.getTeam() + "\n Turno de ataque");
+
+        Ship ship = showAvailableShips(player.getShips());
+        Coordinates coordinates = getCoordinates();
+
+        try
+        {
+            game.playerAttack(player.getTeam(), coordinates, ship);
+        }
+        catch (NotEnoughEnergyException e)
+        {
+            System.out.println("Vaya... parece que no tienes suficiente energía para realizar el ataque. Por favor, elige otra acción.");
+            showActions(player);
+        }
+    }
+
+
     private void showShipsInfo(Player player)
     {
         HashSet<Ship> uniqueShips = new HashSet<>(player.getShips().values());
@@ -214,53 +310,6 @@ public class MainInterface
         showActions(player);
     }
 
-
-    private void moveShip(Player player)
-    {
-        System.out.println("¡Vamos a mover una nave!");
-
-        Ship shipName = showAvailableShips(player.getShips());
-        player.removeShip(shipName);
-
-        placeShip(player, shipName);
-    }
-
-    private void attack(Player player)
-    {
-        System.out.println("¡Vamos a atacar!");
-
-        boolean validCoordinates = false;
-        Coordinates coordinates = getCoordinates();
-
-        while(!validCoordinates)
-        {
-            if(player.getShips().containsKey(coordinates))
-            {
-                System.out.println("Vaya..., parece que esa posición esta ocupada por uno de tus barcos. Por favor, introduce una posición válida.");
-            }
-            else
-            {
-                validCoordinates = true;
-            }
-        }
-
-        Ship ship = showAvailableShips(player.getShips());
-
-        try
-        {
-            if (player.getTeam().equals(game.getPlayer1().getTeam()))
-            {
-                player.shoot(game.getPlayer2(), coordinates, ship);
-            } else {
-                player.shoot(game.getPlayer1(), coordinates, ship);
-            }
-        }
-        catch (NotEnoughEnergyException e)
-        {
-            System.err.println("Vaya... parece que no tienes suficiente energía para realizar el ataque. Por favor, elige otra acción.");
-            showActions(player);
-        }
-    }
 
     private Ship showAvailableShips(TreeMap<Coordinates, Ship> ships)
     {
@@ -443,13 +492,13 @@ public class MainInterface
                     switch (option)
                     {
                         case 1:
-                            placeShip(player, new DeathStar());
+                            placeShip(player, new DeathStar(new Coordinates()));
                             break;
                         case 2:
-                            placeShip(player, new StarDestroyer());
+                            placeShip(player, new StarDestroyer(new Coordinates()));
                             break;
                         case 3:
-                            placeShip(player, new TIE());
+                            placeShip(player, new TIE(new Coordinates()));
                             break;
                     }
                 }
@@ -458,13 +507,13 @@ public class MainInterface
                     switch (option)
                     {
                         case 1:
-                            placeShip(player, new MilenniumFalcon());
+                            placeShip(player, new MilenniumFalcon(new Coordinates()));
                             break;
                         case 2:
-                            placeShip(player, new StarCruiser());
+                            placeShip(player, new StarCruiser(new Coordinates()));
                             break;
                         case 3:
-                            placeShip(player, new XWing());
+                            placeShip(player, new XWing(new Coordinates()));
                             break;
                     }
                 }
@@ -488,14 +537,14 @@ public class MainInterface
             case 1:
                 if (player.getTeam().equals(Side.EMPIRE))
                 {
-                    if (points < new DeathStar().getPrice())
+                    if (points < new DeathStar(new Coordinates()).getPrice())
                     {
                         enoughPoints = false;
                     }
                 }
                 else
                 {
-                    if (points < new MilenniumFalcon().getPrice())
+                    if (points < new MilenniumFalcon(new Coordinates()).getPrice())
                     {
                         enoughPoints = false;
                     }
@@ -504,14 +553,14 @@ public class MainInterface
             case 2:
                 if (player.getTeam().equals(Side.EMPIRE))
                 {
-                    if (points < new StarDestroyer().getPrice())
+                    if (points < new StarDestroyer(new Coordinates()).getPrice())
                     {
                         enoughPoints = false;
                     }
                 }
                 else
                 {
-                    if (points < new StarCruiser().getPrice())
+                    if (points < new StarCruiser(new Coordinates()).getPrice())
                     {
                         enoughPoints = false;
                     }
@@ -520,14 +569,14 @@ public class MainInterface
             case 3:
                 if (player.getTeam().equals(Side.EMPIRE))
                 {
-                    if (points < new TIE().getPrice())
+                    if (points < new TIE(new Coordinates()).getPrice())
                     {
                         enoughPoints = false;
                     }
                 }
                 else
                 {
-                    if (points < new XWing().getPrice())
+                    if (points < new XWing(new Coordinates()).getPrice())
                     {
                         enoughPoints = false;
                     }
@@ -560,27 +609,32 @@ public class MainInterface
             coordinates = new ArrayList<>();
 
             int shipSize = ship.getSize();
+            Coordinates coord = null;
 
             if (shipSize > 1 && (y+shipSize) <= ySize)
             {
                 for (int i = 0; i < shipSize; i++)
                 {
-                    coordinates.add(new Coordinates(x, y + i));
+                    coord = new Coordinates(x, y+i);
+                    coordinates.add(coord);
                 }
 
-                validCoordinates = game.getLocation().isCoordinatesAvailables(coordinates);
+                validCoordinates = game.isCoordenatesAvailable(coord);
             }
             else if (shipSize == 1)
             {
-                coordinates.add(new Coordinates(x, y));
-                validCoordinates = game.getLocation().isCoordinatesAvailables(coordinates);
+                coord = new Coordinates(x, y);
+                coordinates.add(coord);
+                validCoordinates = game.isCoordenatesAvailable(coord);;
             }
         }
+
+        ship.setCoordinatesStart(coordinates.get(0));
 
         for(Coordinates cor: coordinates)
         {
             player.addShip(cor, ship);
-            game.getLocation().addUsedCoordinates(cor);
+            game.addUsedCoordinates(cor, player.getTeam());
         }
     }
 

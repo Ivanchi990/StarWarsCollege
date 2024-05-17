@@ -4,11 +4,12 @@ import assets.data.enums.Side;
 import entities.ships.Ship;
 import exceptions.NotEnoughEnergyException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Player
+public class Player implements Serializable
 {
     private Side team;
     private TreeMap<Coordinates, Ship> ships;
@@ -78,14 +79,6 @@ public class Player
         playerLog.add(message);
     }
 
-    public void shoot(Player reciever, Coordinates coordinates, Ship shooter) throws NotEnoughEnergyException
-    {
-        if(reciever != null)
-        {
-            shooter.shoot(reciever, coordinates, this);
-        }
-    }
-
     public Ship getShip(Coordinates coordinates)
     {
         if(ships.containsKey(coordinates))
@@ -118,26 +111,24 @@ public class Player
         }
     }
 
-    public void removeShip(Ship ship)
-    {
-        ArrayList<Coordinates> coordinatesToRemove = new ArrayList<>();
-
-        for (Map.Entry<Coordinates, Ship> entry : ships.entrySet())
-        {
-            if (entry.getValue().equals(ship))
-            {
-                coordinatesToRemove.add(entry.getKey());
-            }
-        }
-
-        for (Coordinates c : coordinatesToRemove)
-        {
-            ships.remove(c);
-        }
-    }
-
     public void notifyDestruction(Ship ship)
     {
 
+    }
+
+    public void moveShip(Ship shipName, Coordinates coordinates) throws NotEnoughEnergyException
+    {
+        shipName.move(coordinates);
+    }
+
+    public void updateShips()
+    {
+        for (Map.Entry<Coordinates, Ship> entry : ships.entrySet())
+        {
+            if(entry.getValue().getCrewMembers().isEmpty())
+            {
+                removeShip(entry.getKey());
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
 package assets.data.enums;
 
-public enum Side
+import java.io.Serializable;
+
+public enum Side implements Serializable
 {
     EMPIRE,
     REBEL;

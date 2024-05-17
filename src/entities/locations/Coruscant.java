@@ -2,7 +2,9 @@ package entities.locations;
 
 import entities.Coordinates;
 
-public class Coruscant extends Location
+import java.io.Serializable;
+
+public class Coruscant extends Location implements Serializable
 {
     public Coruscant()
     {

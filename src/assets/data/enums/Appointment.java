@@ -1,6 +1,8 @@
 package assets.data.enums;
 
-public enum Appointment
+import java.io.Serializable;
+
+public enum Appointment implements Serializable
 {
     OFFICIAL,
     PILOT,

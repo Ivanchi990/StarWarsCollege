@@ -1,8 +1,9 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Coordinates implements Comparable<Coordinates>
+public class Coordinates implements Comparable<Coordinates>, Serializable
 {
     private int x;
     private int y;
@@ -16,6 +17,12 @@ public class Coordinates implements Comparable<Coordinates>
     {
         this.x = x;
         this.y = y;
+    }
+
+    public Coordinates(Coordinates coordinates, int i)
+    {
+        this.x = coordinates.getX();
+        this.y = coordinates.getY() + i;
     }
 
     public int getX()

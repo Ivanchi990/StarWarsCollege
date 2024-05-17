@@ -1,42 +1,42 @@
 package entities.ships.rebels;
 
-import assets.data.enums.Side;
 import entities.Coordinates;
-import entities.crewmembers.CrewMember;
 import entities.crewmembers.rebels.Calamari;
-import entities.crewmembers.rebels.Jedi;
 import entities.crewmembers.rebels.Wookie;
 import entities.ships.Ship;
+import exceptions.NotEnoughEnergyException;
 
-import java.util.TreeMap;
+import java.io.Serializable;
 
-public class StarCruiser extends Ship
+public class StarCruiser extends Ship implements Serializable
 {
-    public StarCruiser()
+    public StarCruiser(Coordinates coordinates)
     {
-        super("Crucero Estelar", 8000, 9000, 9000, 6000, 16, 30, 4000, null, 15, 30);
+        super("Crucero Estelar", 8000, 9000, 9000, 6000, 16, 30, 4000, null, 15, 30, coordinates);
         setCrewMembers();
     }
 
     public void setCrewMembers()
     {
-        TreeMap<Coordinates, CrewMember> crewMembers = new TreeMap<>();
+        this.crewMembers.add(new Calamari(coordinatesStart));
 
-        for(int i = 0; i < 2; i++)
+        this.crewMembers.add(new Wookie(new Coordinates(this.coordinatesStart, 1)));
+        this.crewMembers.add(new Wookie(new Coordinates(this.coordinatesStart, 2)));
+        this.crewMembers.add(new Wookie(new Coordinates(this.coordinatesStart, 3)));
+    }
+
+    @Override
+    public void move(Coordinates coordinatesStart) throws NotEnoughEnergyException
+    {
+        if(this.engineEnergy >= this.movementEnergy)
         {
-            crewMembers.put(new Coordinates(), new Jedi());
+            this.engineEnergy -= this.movementEnergy;
+            this.coordinatesStart = coordinatesStart;
+            setCrewMembers();
         }
-
-        for(int i = 0; i < 2; i++)
+        else
         {
-            crewMembers.put(new Coordinates(), new Calamari());
+            throw new NotEnoughEnergyException();
         }
-
-        for(int i = 0; i < 16; i++)
-        {
-            crewMembers.put(new Coordinates(), new Wookie());
-        }
-
-        this.setCrewMembers(crewMembers);
     }
 }

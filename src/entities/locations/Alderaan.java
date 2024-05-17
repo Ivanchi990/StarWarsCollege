@@ -2,7 +2,9 @@ package entities.locations;
 
 import entities.Coordinates;
 
-public class Alderaan extends Location
+import java.io.Serializable;
+
+public class Alderaan extends Location implements Serializable
 {
 
     public Alderaan()
