@@ -131,4 +131,12 @@ public class Player implements Serializable
             }
         }
     }
+
+    public void rechargeEnergy()
+    {
+        for (Map.Entry<Coordinates, Ship> entry : ships.entrySet())
+        {
+            entry.getValue().rechargeEnergy();
+        }
+    }
 }

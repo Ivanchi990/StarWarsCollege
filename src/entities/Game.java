@@ -7,7 +7,9 @@ import exceptions.InvalidCoordenatesException;
 import exceptions.NotEnoughEnergyException;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.TreeMap;
 
 public class Game implements Serializable
@@ -127,12 +129,12 @@ public class Game implements Serializable
             }
             else
             {
-                //Aliado viejo
+                gameLog.add(new Message(new Date(), team, "Vaya, parece que has disparado a tu propio barco."));
             }
         }
         else
         {
-            //Agua viejo
+            gameLog.add(new Message(new Date(), team, "Vaya, parece que has disparado al agua."));
         }
     }
 
@@ -146,6 +148,8 @@ public class Game implements Serializable
         {
             player2.updatePoints(i);
         }
+
+        gameLog.add(new Message(new Date(), team, "Enhorabuena has conseguido " + i + " puntos."));
     }
 
     public void updateShips()
@@ -168,6 +172,8 @@ public class Game implements Serializable
             {
                 player2.moveShip(ship, coordinates);
             }
+
+            gameLog.add(new Message(new Date(), team, "Ha movido un barco."));
         }
         else
         {
@@ -212,6 +218,33 @@ public class Game implements Serializable
         for(int i = 0; i < size; i++)
         {
             usedCoordinates.put(new Coordinates(coordinates, i+quantity), team);
+        }
+    }
+
+    public void checkRecharge()
+    {
+        if((round%5) == 0)
+        {
+            player1.rechargeEnergy();
+            player2.rechargeEnergy();
+        }
+    }
+
+    public void showLastActions()
+    {
+        if(gameLog.size() <= 5)
+        {
+            for(Message m : gameLog)
+            {
+                System.out.println(m);
+            }
+        }
+        else
+        {
+            for(int i = gameLog.size() - 5; i < gameLog.size(); i++)
+            {
+                System.out.println(gameLog.get(i));
+            }
         }
     }
 }

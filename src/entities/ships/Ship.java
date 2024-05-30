@@ -210,4 +210,11 @@ public abstract class Ship implements Serializable
 
         return power;
     }
+
+    public void rechargeEnergy()
+    {
+        deflectorsEnergy += 100;
+        cannonEnergy += 100;
+        engineEnergy += 100;
+    }
 }

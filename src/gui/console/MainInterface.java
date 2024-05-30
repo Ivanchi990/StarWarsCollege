@@ -2,6 +2,7 @@ package gui.console;
 
 import assets.data.ApplicationValues;
 import assets.data.enums.Side;
+import data.DataStore;
 import entities.Coordinates;
 import entities.Game;
 import entities.Player;
@@ -113,6 +114,8 @@ public class MainInterface
 
         while(game.getWinner() == null)
         {
+            game.showLastActions();
+
             if(game.getRound() % 2 == 0)
             {
                 System.out.println("¡Turno del jugador 1!" + game.getPlayer1().getTeam());
@@ -126,6 +129,7 @@ public class MainInterface
 
             game.increaseRound();
             game.updateShips();
+            game.checkRecharge();
 
             if(game.getPlayer1().getShips().isEmpty())
             {
@@ -772,7 +776,8 @@ public class MainInterface
 
     private void continueGame()
     {
-
+        DataStore dt = new DataStore();
+        game = dt.loadData("gameData.bin");
     }
 
 
