@@ -7,12 +7,13 @@ import entities.ships.Ship;
 import exceptions.NotEnoughEnergyException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class TIE extends Ship implements Serializable
 {
     public TIE(Coordinates coordinates)
     {
-        super("TIE", 500, 0, 1000, 500, 1, 20, 250, null, 2, 25, coordinates);
+        super("TIE", 500, 0, 1000, 500, 1, 20, 250, new ArrayList<>(), 2, 25, coordinates);
         setCrewMembers();
     }
 

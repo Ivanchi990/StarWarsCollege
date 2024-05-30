@@ -162,10 +162,10 @@ public class MainInterface
         {
             try
             {
-                System.out.println("¿Qué acción te gustaría realizar? \n [1] Atacar \n [2] Mover nave \n [3] Ver naves \n [4] Comprar nave \n [5] Ver tablero");
+                System.out.println("¿Qué acción te gustaría realizar? \n [1] Atacar \n [2] Mover nave \n [3] Ver naves \n [4] Comprar nave \n [5] Ver tablero \n [6] Guardar partida \n [7] Salir");
                 option = sc.nextInt();
 
-                if (validOption(option, 5))
+                if (validOption(option, 7))
                 {
                     validOption = true;
                 }
@@ -202,7 +202,21 @@ public class MainInterface
             case 5:
                 showShips(player);
                 break;
+            case 6:
+                saveGame();
+                break;
+            case 7:
+                exitGame();
+                break;
         }
+    }
+
+    private void saveGame()
+    {
+        DataStore dt = new DataStore();
+        dt.saveData(game);
+
+        System.out.println("¡Partida guardada con éxito!");
     }
 
 

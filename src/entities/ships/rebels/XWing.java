@@ -7,12 +7,13 @@ import entities.ships.Ship;
 import exceptions.NotEnoughEnergyException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class XWing extends Ship implements Serializable
 {
     public XWing(Coordinates coordinatesStart)
     {
-        super("Ala-X", 500, 500, 500, 500, 1, 10, 250, null,2, 25, coordinatesStart);
+        super("Ala-X", 500, 500, 500, 500, 1, 10, 250, new ArrayList<>(),2, 25, coordinatesStart);
         setCrewMembers();
     }
 

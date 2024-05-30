@@ -8,12 +8,13 @@ import entities.ships.Ship;
 import exceptions.NotEnoughEnergyException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class MilenniumFalcon extends Ship implements Serializable
 {
     public MilenniumFalcon(Coordinates coordinates)
     {
-        super("Halcón Milenario", 2000, 1500, 2000, 2500, 4, 40, 1000, null, 99999, 500, coordinates);
+        super("Halcón Milenario", 2000, 1500, 2000, 2500, 4, 40, 1000, new ArrayList<>(), 99999, 500, coordinates);
         setCrewMembers();
     }
 

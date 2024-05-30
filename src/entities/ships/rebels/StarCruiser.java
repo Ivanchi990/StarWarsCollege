@@ -7,12 +7,13 @@ import entities.ships.Ship;
 import exceptions.NotEnoughEnergyException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class StarCruiser extends Ship implements Serializable
 {
     public StarCruiser(Coordinates coordinates)
     {
-        super("Crucero Estelar", 8000, 9000, 9000, 6000, 16, 30, 4000, null, 15, 30, coordinates);
+        super("Crucero Estelar", 8000, 9000, 9000, 6000, 16, 30, 4000, new ArrayList<>(), 15, 30, coordinates);
         setCrewMembers();
     }
 

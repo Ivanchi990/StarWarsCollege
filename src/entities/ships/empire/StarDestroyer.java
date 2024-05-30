@@ -8,13 +8,14 @@ import entities.ships.Ship;
 import exceptions.NotEnoughEnergyException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class StarDestroyer extends Ship implements Serializable
 {
     public StarDestroyer(Coordinates coordinates)
     {
-        super("Destructor Estelar",  2500, 1000, 1000, 500, 8, 80, 1500, null, 20, 100, coordinates);
+        super("Destructor Estelar",  2500, 1000, 1000, 500, 8, 80, 1500, new ArrayList<>(), 20, 100, coordinates);
         setCrewMembers();
     }
 

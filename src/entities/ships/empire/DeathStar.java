@@ -8,13 +8,14 @@ import entities.ships.Ship;
 import exceptions.NotEnoughEnergyException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class DeathStar extends Ship implements Serializable
 {
     public DeathStar(Coordinates coordinates)
     {
-        super("Estrella de la Muerte", 15000, 7500, 7500, 0, 30, 500, 500, null, 0, 0, coordinates);
+        super("Estrella de la Muerte", 15000, 7500, 7500, 0, 30, 500, 500, new ArrayList<>(), 0, 0, coordinates);
         setCrewMembers();
     }
 
